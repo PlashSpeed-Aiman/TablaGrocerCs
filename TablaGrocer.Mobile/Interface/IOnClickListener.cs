@@ -9,3 +9,7 @@ public  interface IOnClickListener<T>
     void OnDeleteClick(T item, int position);
 }
 
+public interface IOnGroceryRunCheckedChangeListener<T>
+{
+    void OnGroceryRunCheckedChanged(T item, int position, bool isChecked);
+}

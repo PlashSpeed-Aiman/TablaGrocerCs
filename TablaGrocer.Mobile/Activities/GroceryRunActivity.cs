@@ -12,7 +12,7 @@ using TableGrocer.EFCore.Models;
 namespace TablaGrocerMobile;
 
 [Activity(Label = "GroceryRunActivity")]
-public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem>
+public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem>,IOnGroceryRunCheckedChangeListener<GroceryItem>
 {
     private RecyclerView _recyclerView;
     private List<GroceryItem> _groceryItems;
@@ -38,7 +38,7 @@ public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem
         
         
         // Initialize the adapter with the list of items
-        _groceryItemAdapter = new GroceryItemAdapter(this, _groceryItems,this);
+        _groceryItemAdapter = new GroceryItemAdapter(this, _groceryItems,this,this);
 
         // Set the adapter for the RecyclerView
         _recyclerView.SetAdapter(_groceryItemAdapter);
@@ -99,9 +99,27 @@ public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem
 
     public void OnItemClick(GroceryItem item, int position)
     {
-        throw new NotImplementedException();
+        return;
     }
+    public void OnGroceryRunCheckedChanged(GroceryItem item,int position, bool isChecked)
+    {
+        // Update the IsCompleted property
+        item = _groceryItems[position];
+        item.IsDone = isChecked;
+        // Update the database
+        using (var ctx = new AppDbContext())
+        {
+            ctx.GroceryItems.Update(item);
+             ctx.SaveChanges();
+        }
 
+        // Find the index of the item in the list
+       
+            // Update the item in the list
+            _groceryItems[position] = item;
+            // Notify the adapter that the item has changed
+            _groceryItemAdapter.NotifyDataSetChanged();
+    }
     public void OnEditClick(GroceryItem item, int position)
     {
         throw new NotImplementedException();
@@ -109,6 +127,18 @@ public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem
 
     public void OnDeleteClick(GroceryItem item, int position)
     {
-        throw new NotImplementedException();
+        using (var ctx = new AppDbContext())
+        {
+            var res = ctx.GroceryItems.Find(_groceryItems[position].Id);
+            ctx.Remove(res);
+            ctx.SaveChanges();
+            _groceryItems.Remove(_groceryItems[position]);
+            _groceryItemAdapter.NotifyItemRemoved(position);
+            
+            Toast.MakeText(this, "Item Deleted", ToastLength.Long).Show();
+
+        }
     }
+
+    
 }
