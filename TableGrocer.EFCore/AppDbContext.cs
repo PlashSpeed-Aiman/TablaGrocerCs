@@ -11,9 +11,6 @@ namespace TableGrocer.EFCore
         public AppDbContext()
         {
             
-            SQLitePCL.Batteries_V2.Init();
-            this.Database.EnsureCreated();
-
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

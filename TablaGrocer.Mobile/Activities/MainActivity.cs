@@ -16,7 +16,7 @@ using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 
 namespace TablaGrocerMobile;
 
-[Activity(Label = "@string/app_name")]
+[Activity(Label = "Grocery Runs")]
 public class MainActivity : AppCompatActivity, IOnClickListener<GroceryRun>
 {
     private FloatingActionButton? _fab;

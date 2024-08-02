@@ -37,10 +37,10 @@ public class GroceryItemAdapter : RecyclerView.Adapter
           
             
             EditGroceryItemImageView.Click += (sender, e) => 
-                listener.OnEditClick(itemView.Tag.Cast<GroceryItemWrapper>().GroceryItem, AdapterPosition);
+                listener.OnEditClick(null, AdapterPosition);
             
             DeleteGroceryItemImageView.Click += (sender, e) => 
-                listener.OnDeleteClick(itemView.Tag.Cast<GroceryItemWrapper>().GroceryItem, AdapterPosition);
+                listener.OnDeleteClick(null, AdapterPosition);
         }
 
         public void RegisterCheckedListener(IOnGroceryRunCheckedChangeListener<GroceryItem> checkedListener)

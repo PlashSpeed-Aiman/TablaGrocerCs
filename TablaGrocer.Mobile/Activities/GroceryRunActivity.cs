@@ -11,7 +11,7 @@ using TableGrocer.EFCore.Models;
 
 namespace TablaGrocerMobile;
 
-[Activity(Label = "GroceryRunActivity")]
+[Activity(Label = "Grocery Items")]
 public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem>,IOnGroceryRunCheckedChangeListener<GroceryItem>
 {
     private RecyclerView _recyclerView;
@@ -20,7 +20,7 @@ public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem
     private FloatingActionButton _fab;
     private EditText _groceryEditText;
     private EditText _groceryQuantityEditText;
-    private LayoutInflater _inflater;
+    private LayoutInflater _inflater;   
     private int _groceryRunId;
     protected override void OnCreate(Bundle? savedInstanceState)
     {
