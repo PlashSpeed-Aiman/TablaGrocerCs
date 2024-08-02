@@ -44,7 +44,7 @@
             android:id="@+id/grocery_item_edit"
             android:foreground="?attr/selectableItemBackground"
             android:clickable="true"
-            android:layout_marginTop="8dp"
+            android:layout_gravity="center"
 
             android:layout_marginHorizontal="5dp"
             android:tint="@android:color/white"
@@ -53,11 +53,11 @@
 
     <ImageView
             android:src="@drawable/delete_24px"
-            android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:foreground="?attr/selectableItemBackground"
             android:clickable="true"
+            android:layout_gravity="center"
             android:tint="@android:color/white"
             android:id="@+id/grocery_item_delete"
             />

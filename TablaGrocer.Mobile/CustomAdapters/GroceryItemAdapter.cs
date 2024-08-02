@@ -22,7 +22,8 @@ public class GroceryItemAdapter : RecyclerView.Adapter
         public CheckBox CheckBox { get; private set;}
         public ImageView EditGroceryItemImageView { get; }
         public ImageView DeleteGroceryItemImageView { get; }
-
+        public IOnGroceryRunCheckedChangeListener<GroceryItem> checkedListener { get; set; }
+        public View itemView;
         public GroceryItemViewHolder(View itemView,IOnClickListener<GroceryItem> listener,IOnGroceryRunCheckedChangeListener<GroceryItem> checkedListener) : base(itemView)
         {
             GroceryItemTextView = itemView.FindViewById<TextView>(Resource.Id.groceryItem);
@@ -30,17 +31,28 @@ public class GroceryItemAdapter : RecyclerView.Adapter
             CheckBox = itemView.FindViewById<CheckBox>(Resource.Id.checkBox);
             EditGroceryItemImageView = itemView.FindViewById<ImageView>(Resource.Id.grocery_item_edit);
             DeleteGroceryItemImageView = itemView.FindViewById<ImageView>(Resource.Id.grocery_item_delete);
-            
+            this.itemView = itemView;
 
             
-            CheckBox.CheckedChange  +=  (sender, args) =>
-                checkedListener.OnGroceryRunCheckedChanged(null, AdapterPosition, args.IsChecked);
+          
             
             EditGroceryItemImageView.Click += (sender, e) => 
-                listener.OnEditClick(null, AdapterPosition);
+                listener.OnEditClick(itemView.Tag.Cast<GroceryItemWrapper>().GroceryItem, AdapterPosition);
             
             DeleteGroceryItemImageView.Click += (sender, e) => 
-                listener.OnDeleteClick(null, AdapterPosition);
+                listener.OnDeleteClick(itemView.Tag.Cast<GroceryItemWrapper>().GroceryItem, AdapterPosition);
+        }
+
+        public void RegisterCheckedListener(IOnGroceryRunCheckedChangeListener<GroceryItem> checkedListener)
+        {
+            CheckBox.CheckedChange  +=  async (sender, args) =>
+               await checkedListener.OnGroceryRunCheckedChanged(null, AdapterPosition, args.IsChecked);
+        }
+
+        public void UnregisterCheckedListener(IOnGroceryRunCheckedChangeListener<GroceryItem> checkedListener)
+        {
+            CheckBox.CheckedChange  -=  async (sender, args) =>
+                await checkedListener.OnGroceryRunCheckedChanged(null, AdapterPosition, args.IsChecked);
         }
     }
     public GroceryItemAdapter(Context context, List<GroceryItem> items,IOnClickListener<GroceryItem> listener,IOnGroceryRunCheckedChangeListener<GroceryItem> checkedListener)
@@ -55,10 +67,12 @@ public class GroceryItemAdapter : RecyclerView.Adapter
         GroceryItemViewHolder? vh = holder as GroceryItemViewHolder;
         
         var item = _items[position];
+        vh.itemView.Tag = new GroceryItemWrapper(item);
         vh.GroceryItemTextView.Text = item.ItemName;
         vh.ItemQuantityTextView.Text = item.Quantity;
+        vh.UnregisterCheckedListener(_checkedChangeListener);
         vh.CheckBox.Checked = item.IsDone ?? false ;
-        vh.ItemView.Tag = new GroceryItemWrapper(item);
+        vh.RegisterCheckedListener(_checkedChangeListener);
     }
 
     public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

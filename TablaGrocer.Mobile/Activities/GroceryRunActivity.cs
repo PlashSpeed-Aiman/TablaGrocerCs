@@ -56,10 +56,13 @@ public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem
         View dialogView = _inflater.Inflate(Resource.Layout.grocery_item_dialog, null); 
         _groceryEditText = dialogView.FindViewById<EditText>(Resource.Id.GroceryEditText);
         _groceryQuantityEditText = dialogView.FindViewById<EditText>(Resource.Id.GroceryItemQuantityEditText);
+        
+        
+        
         var dialog = new MaterialAlertDialogBuilder(this)
             .SetTitle("Grocery Item Details")!
             .SetView(dialogView)!
-            .SetPositiveButton("OK", (s, args) =>
+            .SetPositiveButton("OK", async (s, args) =>
             {
                 string itemName = _groceryEditText.Text.Trim();
                 string quantityText = _groceryQuantityEditText.Text.Trim();
@@ -85,8 +88,8 @@ public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem
                 };
                 using (var ctx = new AppDbContext())
                 {
-                    ctx.GroceryItems.Add(temp);
-                    ctx.SaveChanges();
+                    await ctx.GroceryItems.AddAsync(temp);
+                    await ctx.SaveChangesAsync();
                 }
                 _groceryItemAdapter.AddItem(temp);
                 Toast.MakeText(this, "Item Added", ToastLength.Long)!.Show();
@@ -101,16 +104,16 @@ public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem
     {
         return;
     }
-    public void OnGroceryRunCheckedChanged(GroceryItem item,int position, bool isChecked)
+    public async Task OnGroceryRunCheckedChanged(GroceryItem item,int position, bool isChecked)
     {
         // Update the IsCompleted property
         item = _groceryItems[position];
         item.IsDone = isChecked;
         // Update the database
-        using (var ctx = new AppDbContext())
+        await using (var ctx = new AppDbContext())
         {
             ctx.GroceryItems.Update(item);
-             ctx.SaveChanges();
+            await ctx.SaveChangesAsync();
         }
 
         // Find the index of the item in the list
@@ -118,11 +121,65 @@ public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem
             // Update the item in the list
             _groceryItems[position] = item;
             // Notify the adapter that the item has changed
-            _groceryItemAdapter.NotifyDataSetChanged();
+            var task = new Task(() =>
+            {
+                _groceryItemAdapter.NotifyItemChanged(position);
+
+            });
+
+            await task;
     }
     public void OnEditClick(GroceryItem item, int position)
-    {
-        throw new NotImplementedException();
+    {        
+        var ctx = new AppDbContext();
+        View dialogView = _inflater.Inflate(Resource.Layout.grocery_item_dialog, null); 
+        _groceryEditText = dialogView.FindViewById<EditText>(Resource.Id.GroceryEditText);
+        _groceryQuantityEditText = dialogView.FindViewById<EditText>(Resource.Id.GroceryItemQuantityEditText);
+        
+        var res = ctx.GroceryItems.Find(_groceryItems[position].Id);
+        var id = res!.Id;
+        _groceryEditText.Text = res.ItemName;
+        _groceryQuantityEditText.Text = res.Quantity;
+        
+        var dialog = new MaterialAlertDialogBuilder(this)
+            .SetTitle("Grocery Item Details")!
+            .SetView(dialogView)!
+            .SetPositiveButton("OK", (s, args) =>
+            {
+                
+                if (string.IsNullOrEmpty(_groceryEditText.Text))
+                {
+                    Toast.MakeText(this, "Item Name cannot be empty", ToastLength.Long)!.Show();
+                    return;
+                }
+        
+                if (string.IsNullOrEmpty(_groceryQuantityEditText.Text))
+                {
+                    Toast.MakeText(this, "Please enter a valid quantity", ToastLength.Long)!.Show();
+                    return;
+                }
+                
+                res.ItemName = _groceryEditText.Text.Trim();
+                res.Quantity = _groceryQuantityEditText.Text.Trim();
+                try
+                {
+                    _groceryItems[position] = res;
+                    ctx.GroceryItems.Update(res);
+                    ctx.SaveChanges();
+                    ctx.Dispose();
+                    _groceryItemAdapter.NotifyItemChanged(position);
+                }
+                catch (Exception e)
+                {
+                    Toast.MakeText(this, e.Message, ToastLength.Long)!.Show();
+
+                }
+                Toast.MakeText(this, "Item Added", ToastLength.Long)!.Show();
+            })
+            .SetNegativeButton("Cancel", (s, args) => { })
+            .Create();
+
+        dialog.Show();
     }
 
     public void OnDeleteClick(GroceryItem item, int position)

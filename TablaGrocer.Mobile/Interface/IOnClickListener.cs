@@ -11,5 +11,5 @@ public  interface IOnClickListener<T>
 
 public interface IOnGroceryRunCheckedChangeListener<T>
 {
-    void OnGroceryRunCheckedChanged(T item, int position, bool isChecked);
+    Task OnGroceryRunCheckedChanged(T item, int position, bool isChecked);
 }
