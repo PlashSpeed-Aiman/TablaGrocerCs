@@ -52,10 +52,11 @@
                 android:id="@+id/textViewName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textColor="@android:color/white"
                 android:text="Sample Text"
                 android:gravity="center_vertical"
+                android:textStyle="bold"
                 />
 
         <TextView
