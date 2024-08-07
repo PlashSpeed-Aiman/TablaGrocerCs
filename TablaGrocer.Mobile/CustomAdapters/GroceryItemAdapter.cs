@@ -19,6 +19,7 @@ public class GroceryItemAdapter : RecyclerView.Adapter
 
         public TextView GroceryItemTextView { get; private set;}
         public TextView ItemQuantityTextView { get;private set; }
+        public TextView ItemPriceTextView { get; set; }
         public CheckBox CheckBox { get; private set;}
         public ImageView EditGroceryItemImageView { get; }
         public ImageView DeleteGroceryItemImageView { get; }
@@ -28,6 +29,7 @@ public class GroceryItemAdapter : RecyclerView.Adapter
         {
             GroceryItemTextView = itemView.FindViewById<TextView>(Resource.Id.groceryItem);
             ItemQuantityTextView = itemView.FindViewById<TextView>(Resource.Id.itemQuantity);
+            ItemPriceTextView = itemView.FindViewById<TextView>(Resource.Id.itemPrice);
             CheckBox = itemView.FindViewById<CheckBox>(Resource.Id.checkBox);
             EditGroceryItemImageView = itemView.FindViewById<ImageView>(Resource.Id.grocery_item_edit);
             DeleteGroceryItemImageView = itemView.FindViewById<ImageView>(Resource.Id.grocery_item_delete);
@@ -70,6 +72,7 @@ public class GroceryItemAdapter : RecyclerView.Adapter
         vh.itemView.Tag = new GroceryItemWrapper(item);
         vh.GroceryItemTextView.Text = item.ItemName;
         vh.ItemQuantityTextView.Text = item.Quantity;
+        vh.ItemPriceTextView.Text = item.Price.ToString() ?? "0.00";
         vh.UnregisterCheckedListener(_checkedChangeListener);
         vh.CheckBox.Checked = item.IsDone ?? false ;
         vh.RegisterCheckedListener(_checkedChangeListener);

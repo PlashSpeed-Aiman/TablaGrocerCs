@@ -1,19 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:padding="16dp"
+              android:padding="8dp"
               android:background="@color/colorPrimaryDark"
-              android:layout_height="wrap_content">
+              android:layout_height="85dp">
 
     <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/checkBox"
+            android:layout_gravity="center"
             />
 
     <LinearLayout
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="5dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -21,20 +24,33 @@
 
         <TextView
                 android:text="TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:textSize="18dp"
                 android:textColor="@android:color/white"
                 android:id="@+id/groceryItem"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                />
 
         <TextView
                 android:text="TextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textColor="@android:color/white"
                 android:id="@+id/itemQuantity"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+
+                />
+
+        <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/white"
+                android:id="@+id/itemPrice"
+                android:layout_weight="1"
+
+                />
     </LinearLayout>
 
     
@@ -61,5 +77,6 @@
             android:tint="@android:color/white"
             android:id="@+id/grocery_item_delete"
             />
+
 
 </LinearLayout>

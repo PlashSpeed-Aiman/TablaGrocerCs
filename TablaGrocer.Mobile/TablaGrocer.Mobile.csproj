@@ -5,6 +5,7 @@
         <OutputType>Exe</OutputType>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
         <ApplicationId>com.companyname.TablaGrocerMobile</ApplicationId>
         <ApplicationVersion>1</ApplicationVersion>
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>

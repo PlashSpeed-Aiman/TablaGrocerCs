@@ -20,6 +20,7 @@ public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem
     private FloatingActionButton _fab;
     private EditText _groceryEditText;
     private EditText _groceryQuantityEditText;
+    private EditText _groceryPriceEditText;
     private LayoutInflater _inflater;   
     private int _groceryRunId;
     protected override void OnCreate(Bundle? savedInstanceState)
@@ -132,15 +133,16 @@ public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem
     public void OnEditClick(GroceryItem item, int position)
     {        
         var ctx = new AppDbContext();
-        View dialogView = _inflater.Inflate(Resource.Layout.grocery_item_dialog, null); 
+        View dialogView = _inflater.Inflate(Resource.Layout.grocery_item_edit_dialog, null); 
         _groceryEditText = dialogView.FindViewById<EditText>(Resource.Id.GroceryEditText);
         _groceryQuantityEditText = dialogView.FindViewById<EditText>(Resource.Id.GroceryItemQuantityEditText);
-        
+        _groceryPriceEditText = dialogView.FindViewById<EditText>(Resource.Id.GroceryItemPriceEditText);
+
         var res = ctx.GroceryItems.Find(_groceryItems[position].Id);
         var id = res!.Id;
         _groceryEditText.Text = res.ItemName;
         _groceryQuantityEditText.Text = res.Quantity;
-        
+        _groceryPriceEditText.Text = res.Price.ToString();
         var dialog = new MaterialAlertDialogBuilder(this)
             .SetTitle("Grocery Item Details")!
             .SetView(dialogView)!
@@ -159,8 +161,10 @@ public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem
                     return;
                 }
                 
+                
                 res.ItemName = _groceryEditText.Text.Trim();
                 res.Quantity = _groceryQuantityEditText.Text.Trim();
+                res.Price = Decimal.Parse(_groceryPriceEditText.Text ?? "0.00");
                 try
                 {
                     _groceryItems[position] = res;

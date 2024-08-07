@@ -1,11 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ListView
-            android:id="@+id/menuListView"
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-</LinearLayout>
+            android:layout_height="wrap_content">
+
+
+        <include layout="@layout/grocery_run_menu_card"
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:layout_margin="5dp"/>
+        <include layout="@layout/templates_menu_card"
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:layout_margin="5dp"
+                />
+
+    </LinearLayout>
+</ScrollView>

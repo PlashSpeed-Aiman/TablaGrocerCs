@@ -7,8 +7,7 @@ namespace TablaGrocerMobile;
 [Activity(Label = "@string/app_name", MainLauncher = true)]
 public class ListMenuActivity : AppCompatActivity
 {
-    private ListView _listView;
-    private string[] items = new[] { "View or Create New Grocery Runs", "View or Create New Grocery Item" };
+    private Button? _groceryRunButton;
     protected override void OnCreate(Bundle? savedInstanceState)
     {
         base.OnCreate(savedInstanceState);
@@ -16,31 +15,19 @@ public class ListMenuActivity : AppCompatActivity
         // Set our view from the "main" layout resource
         SetContentView(Resource.Layout.activity_list);
         initializeViews();
-        _listView.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, items);
-        _listView.ItemClick += (sender, e) =>
+        _groceryRunButton.Click += (sender, args) =>
         {
-            handleItemClick(e.Position);
+            handleItemClick();
         };
+
     }
     
     private void initializeViews() {
-        _listView = FindViewById<ListView>(Resource.Id.menuListView);
+        _groceryRunButton = FindViewById<Button>(Resource.Id.textButton3);
     }
-    private void handleItemClick(int position) {
-        Intent intent;
-        switch (position) {
-            case 0:
-                intent = new Intent(this, typeof(MainActivity));
-                break;
-            /*case 1:
-                intent = new Intent(this, Activity2.class);
-                break;
-            case 2:
-                intent = new Intent(this, Activity3.class);
-                break;*/
-            default:
-                return;
-        }
+    private void handleItemClick() {
+        Intent intent; 
+        intent = new Intent(this, typeof(MainActivity));
         StartActivity(intent);
     }
 }
