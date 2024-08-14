@@ -1,82 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
+              android:layout_height="120dp"
               android:padding="8dp"
-              android:background="@color/colorPrimaryDark"
-              android:layout_height="85dp">
+              android:background="@color/colorPrimary">
 
     <CheckBox
+            android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/checkBox"
-            android:layout_gravity="center"
-            />
+            android:buttonTint="@android:color/white"
+            android:layout_gravity="center" />
 
     <LinearLayout
-            android:layout_marginStart="5dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
         <TextView
-                android:text="TextView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="18dp"
-                android:textColor="@android:color/white"
                 android:id="@+id/groceryItem"
-                android:layout_weight="1"
-                />
+                
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
 
         <TextView
-                android:text="TextView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@android:color/white"
                 android:id="@+id/itemQuantity"
-                android:layout_weight="1"
-
-                />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="@android:color/white" />
 
         <TextView
-                android:text="TextView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@android:color/white"
                 android:id="@+id/itemPrice"
-                android:layout_weight="1"
-
-                />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="@android:color/white" />
     </LinearLayout>
 
-    
     <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/grocery_item_edit"
-            android:foreground="?attr/selectableItemBackground"
-            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-
             android:layout_marginHorizontal="5dp"
-            android:tint="@android:color/white"
             android:src="@drawable/edit_24px"
+            android:foreground="?attr/selectableItemBackground"
+            android:tint="@android:color/white"
+            android:clickable="true" 
+            android:focusable="true"
             />
 
     <ImageView
-            android:src="@drawable/delete_24px"
+            android:id="@+id/grocery_item_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:foreground="?attr/selectableItemBackground"
-            android:clickable="true"
             android:layout_gravity="center"
+            android:src="@drawable/delete_24px"
+            android:foreground="?attr/selectableItemBackground"
             android:tint="@android:color/white"
-            android:id="@+id/grocery_item_delete"
-            />
-
+            android:focusable="true"
+            android:clickable="true" />
 
 </LinearLayout>

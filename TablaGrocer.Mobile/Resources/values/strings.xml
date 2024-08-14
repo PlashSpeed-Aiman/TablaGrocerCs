@@ -3,4 +3,6 @@
     <string name="app_text">Hello, Android!</string>
     <string name="grocery_run_description">View or add new grocery runs</string>
     <string name="grocery_templates_description">View or add new templates for grocery runs</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
