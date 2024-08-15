@@ -21,6 +21,7 @@ public class MainActivity : AppCompatActivity, IOnClickListener<GroceryRun>
     private GroceryRunAdapter _groceryRunAdapter;
     private MaterialDatePicker _datePicker;
     private LayoutInflater _inflater;
+    private AndroidX.AppCompat.Widget.Toolbar? _toolbar;
 
 
     protected override void OnCreate(Bundle? savedInstanceState)
@@ -40,7 +41,8 @@ public class MainActivity : AppCompatActivity, IOnClickListener<GroceryRun>
         SetContentView(Resource.Layout.activity_main);
 
 
-        
+        _toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar?>(Resource.Id.toolbar);
+
         
         _recyclerView = FindViewById<RecyclerView>(Resource.Id.recycler_view);
         
@@ -61,7 +63,23 @@ public class MainActivity : AppCompatActivity, IOnClickListener<GroceryRun>
         _datePicker = MaterialDatePicker.Builder.DatePicker()
             .SetTitleText("Select Date")
             .Build();
+        
+        SetSupportActionBar(_toolbar);
 
+    }
+    public override bool OnCreateOptionsMenu(IMenu menu)
+    {
+        MenuInflater.Inflate(Resource.Menu.drawer_menu, menu);  // Inflate your menu resource
+        return base.OnCreateOptionsMenu(menu);
+    }
+    public override bool OnOptionsItemSelected(IMenuItem item)
+    {
+        switch (item.ItemId)
+        {
+
+            default:
+                return base.OnOptionsItemSelected(item);
+        }
     }
     public void OnItemClick(GroceryRun item, int position)
     {

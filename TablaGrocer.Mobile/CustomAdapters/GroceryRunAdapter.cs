@@ -61,9 +61,6 @@ public class GroceryRunAdapter : RecyclerView.Adapter
             vh.StatusTextView.Text = "Ongoing";
         }
         
-        /*vh.ItemView.Click += (sender, e) => _listener.OnItemClick(item, position);
-        vh.EditGroceryRunImageView.Click += (sender, e) => _listener.OnEditClick(item, position);
-        vh.DeleteGroceryRunImageView.Click += (sender, e) => _listener.OnDeleteClick(item, position);*/
         vh.ItemView.Tag = (Object)item as Java.Lang.Object;
     }
 

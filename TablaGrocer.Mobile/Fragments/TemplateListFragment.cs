@@ -1,4 +1,5 @@
 ﻿
+using Android.Content;
 using Android.Views;
 using AndroidX.RecyclerView.Widget;
 using Google.Android.Material.Dialog;
@@ -13,17 +14,23 @@ namespace TablaGrocerMobile.Fragments;
 public class TemplateListFragment : AndroidX.Fragment.App.Fragment, IOnClickListener<Template>
 {
     private RecyclerView? _recyclerView;
-    private List<GroceryRun> _groceryRuns;
+    private List<Template> _templates;
     private TemplatesListAdapter _templatesListAdapter;
     private FloatingActionButton? _fab;
     private LayoutInflater _inflater;
-    
+    private Context _context;
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        using (var ctx = new AppDbContext())
+        {
+            _templates = ctx.Templates.ToList();
+        }
         // Inflate the layout for this fragment
+        _context = container.Context;
         _inflater = inflater;
         View view = _inflater.Inflate(Resource.Layout.fragment_templates_list, container, false);
         _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recycler_view_templates);
+        _templatesListAdapter = new TemplatesListAdapter(view.Context, _templates, this);
         _recyclerView?.SetAdapter(_templatesListAdapter);
         _recyclerView.SetLayoutManager(new LinearLayoutManager(view.Context));
         _fab = view.FindViewById<FloatingActionButton>(Resource.Id.fab_templates);
@@ -37,23 +44,23 @@ public class TemplateListFragment : AndroidX.Fragment.App.Fragment, IOnClickList
         View dialogView = _inflater.Inflate(Resource.Layout.template_info_dialog, null);
 
         var editTextName = dialogView.FindViewById<EditText>(Resource.Id.editTemplateName);
-        var dialog = new MaterialAlertDialogBuilder(this.Context)
-            .SetTitle("Grocery Run Details")!
+        var dialog = new MaterialAlertDialogBuilder(Context)
+            .SetTitle("Template Details")!
             .SetView(dialogView)!
             .SetPositiveButton("OK", (s, args) =>
             {
-                string name = editTextName.Text;
-                Template temp = new Template()
+                Template temp = new Template
                 {
-                    TemplateName = name,
+                    TemplateName =  editTextName.Text,
                 };
+                //TODO : this doesn't work, TemplateName will always be null
                 using (var ctx = new AppDbContext())
                 {
                     ctx.Templates.Add(temp);
                     ctx.SaveChanges();
+                    _templatesListAdapter.AddItem(temp);
                 }
-                _templatesListAdapter.AddItem(temp);
-                Toast.MakeText(this.Context, "Item Added", ToastLength.Long)!.Show();
+                Toast.MakeText(_context, editTextName.Text ?? "Value is Null", ToastLength.Long)!.Show();
             })
             .SetNegativeButton("Cancel", (s, args) => { })
             .Create();

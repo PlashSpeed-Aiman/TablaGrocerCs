@@ -2,7 +2,7 @@
 
 public class Template
 {
-    public int? Id;
-    public string? TemplateName;
-    
+    public int? Id { get; set; }
+    public string? TemplateName { get; set; }
+    public List<TemplateItem>? TemplateItems { get; set; }
 }

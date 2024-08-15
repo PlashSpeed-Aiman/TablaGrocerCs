@@ -33,12 +33,15 @@ public class TemplatesListAdapter : RecyclerView.Adapter
 
     public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
-        throw new NotImplementedException();
+        TemplatesViewHolder vh = holder as TemplatesViewHolder;
+        
+        var item = _items[position];
+        vh.ProductName.Text = item.TemplateName ?? "UNAVAILABLE";
     }
 
     public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
     {
-        var itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.grocery_run_row_item, parent, false);
+        var itemView = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.template_row_layout, parent, false);
         return new TemplatesViewHolder(itemView);    }
     
     public void AddItem(Template item)

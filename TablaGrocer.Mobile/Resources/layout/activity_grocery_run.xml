@@ -4,9 +4,26 @@
                                                      android:layout_width="match_parent"
                                                      android:layout_height="match_parent">
 
+    <com.google.android.material.appbar.MaterialToolbar
+            
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/purple_500"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextAppearance="?attr/textAppearanceHeadline5"
+            app:title="Grocery Item"
+            app:menu="@menu/drawer_menu"
+            android:elevation="0dp"
+            android:contentInsetStart="0dp"
+            android:contentInsetEnd="0dp">
+        
 
+    </com.google.android.material.appbar.MaterialToolbar>
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/grocery_item_recycler_view"
+            android:layout_marginTop="?android:attr/actionBarSize" 
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

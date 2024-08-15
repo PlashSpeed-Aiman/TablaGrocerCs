@@ -4,6 +4,7 @@ using AndroidX.RecyclerView.Widget;
 using Google.Android.Material.DatePicker;
 using Google.Android.Material.Dialog;
 using Google.Android.Material.FloatingActionButton;
+using Google.Android.Material.Snackbar;
 using TablaGrocerMobile.CustomAdapters;
 using TablaGrocerMobile.Interface;
 using TableGrocer.EFCore;
@@ -11,7 +12,7 @@ using TableGrocer.EFCore.Models;
 
 namespace TablaGrocerMobile;
 
-[Activity(Label = "Grocery Items")]
+[Activity]
 public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem>,IOnGroceryRunCheckedChangeListener<GroceryItem>
 {
     private RecyclerView _recyclerView;
@@ -21,12 +22,14 @@ public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem
     private EditText _groceryEditText;
     private EditText _groceryQuantityEditText;
     private EditText _groceryPriceEditText;
-    private LayoutInflater _inflater;   
+    private LayoutInflater _inflater;
+    private AndroidX.AppCompat.Widget.Toolbar? _toolbar;
     private int _groceryRunId;
     protected override void OnCreate(Bundle? savedInstanceState)
     {
         base.OnCreate(savedInstanceState);
         SetContentView(Resource.Layout.activity_grocery_run);
+        _toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar?>(Resource.Id.toolbar);
         _recyclerView = FindViewById<RecyclerView>(Resource.Id.grocery_item_recycler_view);
         _fab = FindViewById<FloatingActionButton>(Resource.Id.grocery_item_fab);
         _recyclerView.SetLayoutManager(new LinearLayoutManager(this));
@@ -48,10 +51,29 @@ public class GroceryRunActivity : AppCompatActivity,IOnClickListener<GroceryItem
             ShowDialog();
         };
         _inflater = LayoutInflater.From(this);
-        
-
+        SetSupportActionBar(_toolbar);
     }
+    public override bool OnCreateOptionsMenu(IMenu menu)
+    {
+        MenuInflater.Inflate(Resource.Menu.drawer_menu, menu);  // Inflate your menu resource
+        return base.OnCreateOptionsMenu(menu);
+    }
+    public override bool OnOptionsItemSelected(IMenuItem item)
+    {
+        switch (item.ItemId)
+        {
+            case Resource.Id.nav_home:
+                // Handle action_search click
+                return true;
 
+            case Resource.Id.nav_settings:
+                // Handle action_settings click
+                return true;
+
+            default:
+                return base.OnOptionsItemSelected(item);
+        }
+    }
     public void ShowDialog()
     {
         View dialogView = _inflater.Inflate(Resource.Layout.grocery_item_dialog, null); 

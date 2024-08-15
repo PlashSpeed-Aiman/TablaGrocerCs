@@ -5,6 +5,7 @@ namespace TableGrocer.EFCore
 {
     public class AppDbContext : DbContext
     {
+        public string? DbPath;
         public DbSet<GroceryItem> GroceryItems { get; set; }
         public DbSet<GroceryRun> GroceryRuns { get; set; }
         public DbSet<Template> Templates { get; set; }
@@ -17,9 +18,9 @@ namespace TableGrocer.EFCore
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string dbPath = Path.Combine(FileSystem.AppDataDirectory, "grocery.db3");
+            DbPath = Path.Combine(FileSystem.AppDataDirectory, "grocery.db3");
             optionsBuilder
-                .UseSqlite($"Filename={dbPath}");
+                .UseSqlite($"Filename={DbPath}");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -54,6 +55,10 @@ namespace TableGrocer.EFCore
                 .WithOne(gi => gi.GroceryRun)
                 .HasForeignKey(gi => gi.GroceryRunId);
 
+            modelBuilder.Entity<Template>()
+                .HasMany(tmp => tmp.TemplateItems)
+                .WithOne(tmpi => tmpi.Template)
+                .HasForeignKey(tmp => tmp.TemplateId);
             
             base.OnModelCreating(modelBuilder);
         }
