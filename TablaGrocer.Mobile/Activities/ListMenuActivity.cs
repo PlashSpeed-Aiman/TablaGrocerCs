@@ -4,6 +4,7 @@ using AndroidX.AppCompat.App;
 using AndroidX.DrawerLayout.Widget;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.Navigation;
+using TablaGrocerMobile.Activities;
 
 namespace TablaGrocerMobile;
 
@@ -13,6 +14,7 @@ public class ListMenuActivity : AppCompatActivity
     private DrawerLayout _drawerLayout;
     private NavigationView _navigationView;
     private Button? _groceryRunButton;
+    private Button? _templatesMenuButton;
     protected override void OnCreate(Bundle? savedInstanceState)
     {
         base.OnCreate(savedInstanceState);
@@ -24,6 +26,12 @@ public class ListMenuActivity : AppCompatActivity
         {
             handleItemClick();
         };
+        _templatesMenuButton.Click += (sender, args) =>
+        {
+            Intent intent; 
+            intent = new Intent(this, typeof(TemplatesActivity));
+            StartActivity(intent);
+        };
 
     }
     
@@ -31,7 +39,7 @@ public class ListMenuActivity : AppCompatActivity
         var toolbar = FindViewById<MaterialToolbar>(Resource.Id.topAppBar);
         SetSupportActionBar(toolbar);
         _groceryRunButton = FindViewById<Button>(Resource.Id.textButton3);
-
+        _templatesMenuButton = FindViewById<Button>(Resource.Id.templates_menu_button);
     }
     private void handleItemClick() {
         Intent intent; 

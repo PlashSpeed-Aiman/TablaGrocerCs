@@ -13,3 +13,4 @@ public interface IOnGroceryRunCheckedChangeListener<T>
 {
     Task OnGroceryRunCheckedChanged(T item, int position, bool isChecked);
 }
+

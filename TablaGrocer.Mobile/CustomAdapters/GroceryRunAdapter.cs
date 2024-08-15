@@ -20,6 +20,7 @@ public class GroceryRunAdapter : RecyclerView.Adapter
         public TextView NameTextView { get; }
         public TextView DateTextView { get; }
         public TextView PlaceTextView { get;}
+        public TextView StatusTextView { get; }
         public ImageView EditGroceryRunImageView { get; }
         public ImageView DeleteGroceryRunImageView { get; }
         public GroceryRunViewHolder(View itemView,IOnClickListener<GroceryRun> listener) : base(itemView)
@@ -27,6 +28,7 @@ public class GroceryRunAdapter : RecyclerView.Adapter
             NameTextView = itemView.FindViewById<TextView>(Resource.Id.textViewName);
             DateTextView = itemView.FindViewById<TextView>(Resource.Id.textViewDate);
             PlaceTextView = itemView.FindViewById<TextView>(Resource.Id.textViewPlace);
+            StatusTextView = itemView.FindViewById<TextView>(Resource.Id.textViewIsDone);
             EditGroceryRunImageView = itemView.FindViewById<ImageView>(Resource.Id.edit_grocery_run);
             DeleteGroceryRunImageView = itemView.FindViewById<ImageView>(Resource.Id.delete_grocery_run);
             itemView.Click += (sender, e) => listener.OnItemClick((GroceryRun)(Object)itemView.Tag, AdapterPosition);
@@ -50,6 +52,15 @@ public class GroceryRunAdapter : RecyclerView.Adapter
         vh.NameTextView.Text = item.Name;
         vh.DateTextView.Text = item.Date;
         vh.PlaceTextView.Text = item.PlaceOfPurchase;
+        if (item.IsDone != null && item.IsDone == true)
+        {
+            vh.StatusTextView.Text = "Completed";
+        }
+        else
+        {
+            vh.StatusTextView.Text = "Ongoing";
+        }
+        
         /*vh.ItemView.Click += (sender, e) => _listener.OnItemClick(item, position);
         vh.EditGroceryRunImageView.Click += (sender, e) => _listener.OnEditClick(item, position);
         vh.DeleteGroceryRunImageView.Click += (sender, e) => _listener.OnDeleteClick(item, position);*/

@@ -7,10 +7,12 @@ namespace TableGrocer.EFCore
     {
         public DbSet<GroceryItem> GroceryItems { get; set; }
         public DbSet<GroceryRun> GroceryRuns { get; set; }
-
+        public DbSet<Template> Templates { get; set; }
+        public DbSet<TemplateItem> TemplateItems { get; set; }
+        
         public AppDbContext()
         {
-            
+             Database.EnsureCreated();    
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -33,12 +35,26 @@ namespace TableGrocer.EFCore
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
+
+            modelBuilder.Entity<Template>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            });
+
+            modelBuilder.Entity<TemplateItem>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            });
+            
             
             modelBuilder.Entity<GroceryRun>()
                 .HasMany(gr => gr.GroceryItems)
                 .WithOne(gi => gi.GroceryRun)
                 .HasForeignKey(gi => gi.GroceryRunId);
 
+            
             base.OnModelCreating(modelBuilder);
         }
     }

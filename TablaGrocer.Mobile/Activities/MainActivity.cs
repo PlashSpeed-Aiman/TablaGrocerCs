@@ -1,21 +1,16 @@
 using Android.Content;
 using Android.Views;
 using AndroidX.AppCompat.App;
-using AndroidX.Fragment.App;
 using AndroidX.RecyclerView.Widget;
-using Google.Android.Material.AppBar;
 using Google.Android.Material.DatePicker;
 using Google.Android.Material.Dialog;
 using Google.Android.Material.FloatingActionButton;
-using Microsoft.EntityFrameworkCore;
 using TablaGrocerMobile.CustomAdapters;
-using TablaGrocerMobile.Fragments;
 using TablaGrocerMobile.Interface;
 using TableGrocer.EFCore;
 using TableGrocer.EFCore.Models;
-using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 
-namespace TablaGrocerMobile;
+namespace TablaGrocerMobile.Activities;
 
 [Activity(Label = "Grocery Runs")]
 public class MainActivity : AppCompatActivity, IOnClickListener<GroceryRun>
@@ -190,7 +185,8 @@ public class MainActivity : AppCompatActivity, IOnClickListener<GroceryRun>
                 {
                     Name = name,
                     Date = date,
-                    PlaceOfPurchase = place
+                    PlaceOfPurchase = place,
+                    IsDone = false
                 };
                 using (var ctx = new AppDbContext())
                 {

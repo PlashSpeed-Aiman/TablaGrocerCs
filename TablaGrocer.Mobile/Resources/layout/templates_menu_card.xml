@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_margin="5dp"
         app:cardCornerRadius="6dp"
-        app:cardElevation="3dp"
+        app:cardElevation="1dp"
         android:layout_height="wrap_content">
     <FrameLayout
             android:background="@color/purple_200"
@@ -42,8 +42,9 @@
                 android:text="@string/grocery_templates_description" />
 
         <Button
-                android:id="@+id/textButton4"
-                style="@style/Widget.AppCompat.Button"
+                android:id="@+id/templates_menu_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:elevation="0dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cardTitle"
